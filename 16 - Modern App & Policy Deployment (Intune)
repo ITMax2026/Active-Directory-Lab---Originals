@@ -1,0 +1,59 @@
+Lab 16 – Intune Device Management
+
+Objective
+- Transition device management from legacy on-premises Group Policy (GPO) to Microsoft Intune.
+- Demonstrate that security policies and software can be successfully deployed to a Hybrid-joined device over the open internet.
+
+Purpose
+- As organizations shift toward remote and hybrid work, relying on local Domain Controllers for policy configuration is no longer practical or scalable.
+
+Why Intune Is Replacing Active Directory GPO
+- In an on-premises environment, a device must be connected to the corporate network or VPN to receive Group Policy updates.
+- If a user works remotely for an extended period, the device can become unmanaged and unpatched.
+
+Technical Strategy
+1. Device Hardening
+   - Use Intune Settings to create a modern GPO that restricts device features for security compliance.
+
+2. Automated Provisioning (App Deployment)
+   - Use the Microsoft Store (new) to deploy applications such as Microsoft Company Portal without requiring user interaction or local deployment tools.
+
+Part 1: Modern GPO Configuration
+1. Open Intune Admin Center
+   - Devices > Configuration > Create > New Policy
+2. Platform
+   - Windows 10 and later
+3. Profile Type
+   - Settings Catalog
+4. Name
+   - Win – Security – Block Camera
+5. Configuration Settings
+   - Select Add Settings
+   - Search for Camera
+   - Select Allow Camera
+   - Set the toggle to Not Allowed
+6. Assignments
+   - Select Add Groups
+   - Choose Lab Devices
+
+Part 2: Cloud App Installation (Company Portal)
+1. Intune Admin Center > Apps > Windows > Create
+2. App Type: Windows Store app (new) > Select
+3. Search for Company Portal > Select
+4. Assignments
+   - Required: Lab Devices Group
+   - Click Next > Create
+
+Part 3: Verification
+1. Log into Client-01
+2. Force a device sync
+   - Settings > Accounts > Access work or school
+   - Select Info > Click Sync
+3. Verification
+   - Camera test:
+     - Open the Camera app
+     - You should see error 0xA00F4244 (“We can’t find your camera”)
+   - Application check:
+     - Open the Start Menu
+     - Confirm the Company Portal app appears
+     - App installation may take 5–10 minutes
